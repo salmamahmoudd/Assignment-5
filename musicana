@@ -1,0 +1,49 @@
+CREATE TABLE Musician (
+    MusicianID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(100),
+    Street VARCHAR(100),
+    City VARCHAR(50),
+    Phone VARCHAR(20)
+);
+
+CREATE TABLE Instrument (
+    InstrumentName VARCHAR(100) PRIMARY KEY,
+    MusicalKey VARCHAR(10)
+);
+
+CREATE TABLE Album (
+    AlbumID INT PRIMARY KEY AUTO_INCREMENT,
+    Title VARCHAR(100) UNIQUE,
+    CopyrightDate DATE,
+    ProducerID INT,
+    FOREIGN KEY (ProducerID) REFERENCES Musician(MusicianID)
+);
+
+CREATE TABLE Song (
+    SongID INT PRIMARY KEY AUTO_INCREMENT,
+    Title VARCHAR(100) UNIQUE,
+    Author VARCHAR(100),
+    AlbumID INT,
+    FOREIGN KEY (AlbumID) REFERENCES Album(AlbumID)
+);
+
+CREATE TABLE Musician_Instrument (
+    MusicianID INT,
+    InstrumentName VARCHAR(100),
+    PRIMARY KEY (MusicianID, InstrumentName),
+    FOREIGN KEY (MusicianID) REFERENCES Musician(MusicianID),
+    FOREIGN KEY (InstrumentName) REFERENCES Instrument(InstrumentName)
+);
+
+CREATE TABLE Musician_Song (
+    MusicianID INT,
+    SongID INT,
+    PRIMARY KEY (MusicianID, SongID),
+    FOREIGN KEY (MusicianID) REFERENCES Musician(MusicianID),
+    FOREIGN KEY (SongID) REFERENCES Song(SongID)
+);
+
+INSERT INTO musician (Name, Street, City, Phone) VALUES
+('Ali Hassan', '123 Nile St', 'Cairo', '01001234567'),
+('Sara Ahmed', '45 Tahrir St', 'Cairo', '01007654321'),
+('Omar Youssef', '77 Ramses St', 'Giza', '01009876543');
